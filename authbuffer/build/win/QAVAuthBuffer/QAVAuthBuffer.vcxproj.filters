@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="root">
+      <UniqueIdentifier>{52669063-6dc3-4997-b6ce-129cb03cfcb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="root\tea">
+      <UniqueIdentifier>{4520e35e-2af6-4d96-a0ce-9c8e0ff4d2e8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\root\auth_buffer.cpp">
+      <Filter>root</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\root\tea\xel_byte_writer.cpp">
+      <Filter>root\tea</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\root\tea\xel_hex_string.cpp">
+      <Filter>root\tea</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\root\tea\xel_hex_util.cpp">
+      <Filter>root\tea</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\root\tea\tea.cpp">
+      <Filter>root\tea</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\root\auth_buffer.h">
+      <Filter>root</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\root\tea\xel_byte_writer.h">
+      <Filter>root\tea</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\root\tea\xel_hex_string.h">
+      <Filter>root\tea</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\root\tea\xel_hex_util.h">
+      <Filter>root\tea</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\root\tea\platform.h">
+      <Filter>root\tea</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\root\tea\tea.h">
+      <Filter>root\tea</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
