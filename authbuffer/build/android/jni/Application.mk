@@ -1,6 +1,6 @@
 # We want to build support for all ARM ABIs
 # This can be overriden by build/tools/rebuild-stlport.sh though
-APP_STL := system
+APP_STL := stlport_static
 APP_ABI := armeabi armeabi-v7a
 APP_PLATFORM := android-8
 APP_CFLAGS := -fvisibility=hidden -ffunction-sections -fdata-sections -Os 

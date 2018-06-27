@@ -7,7 +7,7 @@
 #undef	__MODULE__
 #define __MODULE__ "SDKJNI"
 
-bool Java2Native(JNIEnv *env, char **nativeStr, jstring &javaStr)
+static bool Java2Native(JNIEnv *env, char **nativeStr, jstring &javaStr)
 {
 	if(nativeStr == NULL)
 	{
@@ -47,7 +47,6 @@ extern "C"
 JNIEXPORT jbyteArray JNICALL
 Java_com_tencent_av_sig_AuthBuffer_genAuthBuffer(JNIEnv *env, jobject instance,
 													jint appId, jint roomId, jstring account,
-													jint accountType,
 													jstring key, jint expTime, jint authBits) {
 
 	char *nativeAccount = NULL;
@@ -71,9 +70,9 @@ Java_com_tencent_av_sig_AuthBuffer_genAuthBuffer(JNIEnv *env, jobject instance,
 	unsigned int bufferLen = 512;
 	unsigned char retAuthBuff[512] = {0};
 
-	QAVSDK_AuthBuffer_GenAuthBuffer(appId, roomId, nativeAccount, accountType,
+	bufferLen = QAVSDK_AuthBuffer_GenAuthBuffer(appId, roomId, nativeAccount,
 									nativeKey, expTime, authBits, retAuthBuff,
-									&bufferLen);
+									bufferLen);
 
 	jbyteArray jarr = env->NewByteArray(bufferLen);
 	jbyte *arr = env->GetByteArrayElements(jarr, NULL);

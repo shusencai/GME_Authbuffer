@@ -7,34 +7,33 @@
 //
 
 #include "auth_buffer.h"
-#include "xel_byte_writer.h"
-#include "xel_hex_string.h"
-#include "tea.h"
+#include "tea/xel_byte_writer.h"
+#include "tea/xel_hex_string.h"
+#include "tea/tea.h"
 
 
-QAVSDK_API int QAVSDK_CALL QAVSDK_AuthBuffer_GenAuthBuffer(unsigned int appId, unsigned int authId, const char* account, unsigned int accountType, const char* key, unsigned int expTime, unsigned int privilegeMap, unsigned char* retAuthBuff, unsigned int* buffLenght) {
+QAVSDK_AUTHBUFFER_API int QAVSDK_AUTHBUFFER_CALL QAVSDK_AuthBuffer_GenAuthBuffer(unsigned int dwSdkAppId, unsigned int dwRoomID, const char* strAccount, const char* key, unsigned int expTime, unsigned int nAuthBits, unsigned char* retAuthBuff, unsigned int bufferLength) {
+    printf("dwSdkAppid = %u, dwRoomID = %u, dwExpTime = %u, dwAuthBits = %u\n",
+        dwSdkAppId, dwRoomID, expTime, nAuthBits);
     
-    printf("dwSdkAppid = %u , dwAuthId = %u , dwExpTime = %u  , dwPrivilegeMap = %u , dwAccountType = %u\n",
-           appId, authId ,expTime , privilegeMap , accountType);
-    
-    if (!retAuthBuff || !account){
-        return -1;
+    if (strAccount == NULL || key == NULL || strlen(key) != 16){
+        return 0;
     }
     
     unsigned char pInBuf[512]={0};
     xel::byte_writer bw(pInBuf, sizeof(pInBuf));
     
     char cVer=0;
-    unsigned short wAccountLen = strlen((const char *)account);
+    unsigned short wAccountLen = (unsigned short)strlen((const char *)strAccount);
     
     bw.write_byte(cVer);
     bw.write_int16(wAccountLen);
-    bw.write_bytes(account, wAccountLen);
-    bw.write_int32(appId);
-    bw.write_int32(authId);
+    bw.write_bytes(strAccount, wAccountLen);
+    bw.write_int32(dwSdkAppId);
+    bw.write_int32(dwRoomID);
     bw.write_int32(expTime);
-    bw.write_int32(privilegeMap);
-    bw.write_int32(accountType);
+    bw.write_int32(nAuthBits);
+    bw.write_int32(0 /*dwAccountType*/);
     
     int pInLen = bw.bytes_write();
     
@@ -43,8 +42,11 @@ QAVSDK_API int QAVSDK_CALL QAVSDK_AuthBuffer_GenAuthBuffer(unsigned int appId, u
     
 	symmetry_encrypt((const unsigned char*)pInBuf, pInLen, (const unsigned char*)key, (unsigned char*)pEncryptOutBuf, &iEncrptyLen);
     
-    memcpy(retAuthBuff, pEncryptOutBuf, iEncrptyLen);
-    retAuthBuff[iEncrptyLen]='\0';
-    *buffLenght = iEncrptyLen;
-    return 0;
+	if (bufferLength > iEncrptyLen) {
+		if (retAuthBuff != NULL) {
+			memset(retAuthBuff, 0, bufferLength);
+			memcpy(retAuthBuff, pEncryptOutBuf, iEncrptyLen);
+		}
+    }
+    return iEncrptyLen;
 }
