@@ -42,5 +42,5 @@ public class AuthBuffer {
         return sAuthBuffer;
     }
 
-    public native byte[] genAuthBuffer(int appId, int roomId, String identifier, String key, int expTime, int authBits);
+    public native byte[] genAuthBuffer(int sdkAppID, String roomID, String openID, String key);
 }

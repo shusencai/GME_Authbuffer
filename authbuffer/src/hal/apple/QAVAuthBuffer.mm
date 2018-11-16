@@ -13,12 +13,12 @@
 
 @implementation QAVAuthBuffer
 
-+ (NSData*) GenAuthBuffer:(unsigned int)appId roomId:(unsigned int)roomId identifier:(NSString*)identifier key:(NSString*)key expTime:(unsigned int)expTime authBits:(unsigned int) authBits
++ (NSData*) GenAuthBuffer:(unsigned int)appId roomID:(NSString*)roomID openID:(NSString*)openID key:(NSString*)key
 {
     unsigned int bufferLen = 512;
     unsigned char retAuthBuff[512] = {0};
     
-    bufferLen = QAVSDK_AuthBuffer_GenAuthBuffer(appId, roomId, [identifier UTF8String], [key UTF8String], expTime, authBits, retAuthBuff, bufferLen);
+    bufferLen = QAVSDK_AuthBuffer_GenAuthBuffer(appId, [roomID UTF8String], [openID UTF8String], [key UTF8String] ,retAuthBuff, bufferLen);
     
     return [NSData dataWithBytes:retAuthBuff length:bufferLen];
 }

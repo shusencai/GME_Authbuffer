@@ -46,17 +46,27 @@ extern "C"
 {
 JNIEXPORT jbyteArray JNICALL
 Java_com_tencent_av_sig_AuthBuffer_genAuthBuffer(JNIEnv *env, jobject instance,
-													jint appId, jint roomId, jstring account,
-													jstring key, jint expTime, jint authBits) {
+													jint sdkAppID, jstring roomID, jstring openID,
+													jstring key) {
 
-	char *nativeAccount = NULL;
-	if (account != NULL) {
-		Java2Native(env, &nativeAccount, account);
+	char *nativeOpenID = NULL;
+	if (openID != NULL) {
+		Java2Native(env, &nativeOpenID, openID);
 	}
 
-	if (nativeAccount == NULL) {
+	if (nativeOpenID == NULL) {
 		return NULL;
 	}
+    
+    char *nativeRoomID = NULL;
+    if (roomID != NULL) {
+        Java2Native(env, &nativeRoomID, roomID);
+    }
+    
+    if (nativeRoomID == NULL) {
+        nativeRoomID = new char[1];
+        nativeRoomID[1] = '\0';
+    }
 
 	char *nativeKey = NULL;
 	if (key != NULL) {
@@ -70,9 +80,8 @@ Java_com_tencent_av_sig_AuthBuffer_genAuthBuffer(JNIEnv *env, jobject instance,
 	unsigned int bufferLen = 512;
 	unsigned char retAuthBuff[512] = {0};
 
-	bufferLen = QAVSDK_AuthBuffer_GenAuthBuffer(appId, roomId, nativeAccount,
-									nativeKey, expTime, authBits, retAuthBuff,
-									bufferLen);
+	bufferLen = QAVSDK_AuthBuffer_GenAuthBuffer(sdkAppID, nativeRoomID, nativeOpenID,
+									nativeKey, retAuthBuff, bufferLen);
 
 	jbyteArray jarr = env->NewByteArray(bufferLen);
 	jbyte *arr = env->GetByteArrayElements(jarr, NULL);
@@ -83,7 +92,8 @@ Java_com_tencent_av_sig_AuthBuffer_genAuthBuffer(JNIEnv *env, jobject instance,
 
 	env->ReleaseByteArrayElements(jarr, arr, 0);
 
-	delete[] nativeAccount;
+	delete[] nativeOpenID;
+    delete[] nativeRoomID;
 	delete[] nativeKey;
 
 	return jarr;

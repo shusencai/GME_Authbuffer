@@ -30,18 +30,16 @@ extern "C" {
 #endif
     
 ////Generate AuthBuffer to enter Room for Audio/Video Communication
-//		[in]nAppId					--> User's AppID				
-//		[in]nRoomID					--> Room number		
+//		[in]dwSdkAppId				--> AppID
+//		[in]strRoomID				--> Room number
 //		[in]strOpenID				--> User's OpenID
 //		[in]strKey					--> Key from Tencent Cloud,you can get the information by the Tencent Cloud(strAccountType)	
-//		[in]nExpTime				--> he expired time of the coming AuthBuffer 
-//		[in]nAuthBits				--> Permissions of the player(defult value is -1)	
 //		[out]strAuthBytes			--> Generated binary AuthBuffer
 //		[in]bufferLength	        --> The length of the string AuthBuffer
 //      [ret]                       --> Actual Length of AuthBuffer
 
-QAVSDK_AUTHBUFFER_API int QAVSDK_AUTHBUFFER_CALL QAVSDK_AuthBuffer_GenAuthBuffer(unsigned int nAppId, unsigned int dwRoomID, const char* strOpenID,
-	const char* strKey, unsigned int nExpTime, unsigned int nAuthBits, unsigned char* strAuthBuffer, unsigned int bufferLength);
+QAVSDK_AUTHBUFFER_API int QAVSDK_AUTHBUFFER_CALL QAVSDK_AuthBuffer_GenAuthBuffer(unsigned int dwSdkAppID, const char* strRoomID, const char* strOpenID,
+	const char* strKey, unsigned char* strAuthBuffer, unsigned int bufferLength);
 
 #ifdef __cplusplus
 }  // extern "C"
